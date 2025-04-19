@@ -1,7 +1,9 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Dialogs
+import QtQuick.Layouts
 import filereader
+import customgraph
 
 Window {
     width: 640
@@ -9,40 +11,60 @@ Window {
     visible: true
     title: qsTr("Graph Drawer")
 
-    Column {
-            anchors.fill: parent
-            spacing: 10
-            padding: 20
+    ColumnLayout{
+        anchors.fill: parent
+        spacing: 0
+
+        Rectangle{
+            id: header
+            Layout.fillWidth: true
+            height: 60
+            color: "#38e7a0"
 
             Row {
+                anchors.verticalCenter: parent.verticalCenter
                 spacing: 10
+                anchors.left: parent.left
+                anchors.leftMargin: 10
 
                 Button {
+                    height: 30
                     text: "Загрузить файл"
                     onClicked: fileDialog.open()
                 }
 
                 Text {
-                    text: fileDialog.fileUrl !== "" ? fileDialog.fileUrl : "Файл не выбран"
+                    text: fileDialog.selectedFile !== "" ? fileDialog.selectedFile : "Файл не выбран"
                     wrapMode: Text.WrapAnywhere
-                    width: 500
+                    color: "white"
+                    font.pixelSize: 20
+                    verticalAlignment: Text.AlignVCenter
                 }
             }
         }
 
+        Rectangle{
+            id: body
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+
+            CustomGraph{
+                anchors.fill: parent
+                anchors.margins: 20
+            }
+        }
+
+        Rectangle{
+            id: footer
+            Layout.fillWidth: true
+            height: 50
+            color: "#cccccc"
+        }
+    }
+
     FileReader{
         id: fileReader
     }
-
-    /*Connections {
-        target: fileReader
-        onDataLoaded: function(points) {
-            lineSeries.clear()
-            for (var i = 0; i < points.length; i++) {
-                lineSeries.append(points[i].x, points[i].y)
-            }
-        }
-    }*/
 
     FileDialog {
         id: fileDialog
@@ -51,5 +73,11 @@ Window {
         onAccepted: fileReader.load(fileDialog.selectedFile)
     }
 
+    Connections {
+        target: fileReader
+        onDataLoaded: function(points) {
+            console.log("data loaded")
+        }
+    }
 }
 //}
