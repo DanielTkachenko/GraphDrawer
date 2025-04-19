@@ -1,4 +1,4 @@
-#include "FileReader.h"
+#include "filereader.h"
 #include <QFile>
 #include <QTextStream>
 #include <QDebug>

@@ -1,7 +1,8 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
-#include "FileReader.h"
+#include "filereader.h"
+#include "customgraph.h"
 
 int main(int argc, char *argv[])
 {
@@ -12,9 +13,10 @@ int main(int argc, char *argv[])
     QQmlApplicationEngine engine;
 
     engine.rootContext()->setContextProperty("fileReader", &fileReader);
-    engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
+    //engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
 
     qmlRegisterType<FileReader>("filereader", 1, 0,"FileReader");
+    qmlRegisterType<CustomGraph>("customgraph", 1, 0, "CustomGraph");
     //if (engine.rootObjects().isEmpty())
     //    return -1;
 
