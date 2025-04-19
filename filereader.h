@@ -3,17 +3,12 @@
 
 #include <QObject>
 
-class FileReader : public QObject
+class FileReader
 {
-    Q_OBJECT
 public:
-    explicit FileReader(QObject *parent = nullptr);
+    FileReader();
 
-    Q_INVOKABLE void load(const QUrl &fileUrl);
-
-signals:
-
-    void dataLoaded(QVector<QPointF> &points);
+    static QVector<QPointF> load(const QUrl &fileUrl);
 };
 
 #endif // FILEREADER_H

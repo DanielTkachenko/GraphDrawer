@@ -6,16 +6,16 @@
 #include <qpoint.h>
 #include <qurl.h>
 
-FileReader::FileReader(QObject *parent): QObject{parent} {}
+FileReader::FileReader() {}
 
 
-void FileReader::load(const QUrl &fileUrl) {
+QVector<QPointF> FileReader::load(const QUrl &fileUrl) {
     QString localPath = fileUrl.toLocalFile();
     QFile file(localPath);
 
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
         qWarning() << "Не удалось открыть файл:" << localPath;
-        return;
+
     }
     std::cout << "file opened" << std::endl;
     QTextStream in(&file);
@@ -37,7 +37,7 @@ void FileReader::load(const QUrl &fileUrl) {
             double freq = parts[0].toDouble(&okX);
             double s11_real = parts[1].toDouble(&okY);
             double s11_img = parts[2].toDouble(&okZ);
-            double s11 = 20*std::log10(std::sqrt((s11_real * s11_real) + (s11_img)));
+            double s11 = 20*std::log10(std::sqrt((s11_real * s11_real) + (s11_img * s11_img)));
             if (okX && okY && okZ)
             {
                 points.append(QPointF(freq, s11));
@@ -46,5 +46,6 @@ void FileReader::load(const QUrl &fileUrl) {
     }
 
     file.close();
-    emit dataLoaded(points);
+
+    return points;
 }

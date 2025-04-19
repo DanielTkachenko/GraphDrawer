@@ -2,7 +2,6 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Dialogs
 import QtQuick.Layouts
-import filereader
 import customgraph
 
 Window {
@@ -47,10 +46,12 @@ Window {
             id: body
             Layout.fillWidth: true
             Layout.fillHeight: true
+            color: "black"
 
             CustomGraph{
                 anchors.fill: parent
-                anchors.margins: 20
+                anchors.margins: 0
+                id: graph
             }
         }
 
@@ -62,22 +63,10 @@ Window {
         }
     }
 
-    FileReader{
-        id: fileReader
-    }
-
     FileDialog {
         id: fileDialog
         title: "Выберите файл с данными"
         nameFilters: ["S1p files (*.s1p)","Text files (*.txt)",  "All files (*)"]
-        onAccepted: fileReader.load(fileDialog.selectedFile)
-    }
-
-    Connections {
-        target: fileReader
-        onDataLoaded: function(points) {
-            console.log("data loaded")
-        }
+        onAccepted: graph.readFile(fileDialog.selectedFile)
     }
 }
-//}
