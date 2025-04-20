@@ -61,6 +61,71 @@ Window {
             Layout.fillWidth: true
             height: 50
             color: "#cccccc"
+
+            ProgressBar {
+                width: parent.width - 40
+                height: 30
+                anchors.centerIn: parent
+                from: 0
+                to: 100
+                value: 50  // Примерный прогресс
+            }
+        }
+    }
+
+    Rectangle {
+        objectName: "ErrorMessageDialog"
+        id: errorDialog
+        width: 300
+        height: 180
+        color: "#ffffff"
+        radius: 12
+        visible: false
+        z: 2
+        anchors.centerIn: parent
+        border.color: "#d32f2f"
+        border.width: 2
+        layer.enabled: true
+
+        ColumnLayout {
+            anchors.fill: parent
+            anchors.margins: 16
+            spacing: 12
+
+            // Иконка и заголовок
+            RowLayout {
+                Layout.alignment: Qt.AlignHCenter
+                spacing: 8
+
+                Image {
+                    source: "qrc:/icons/error.png"  // или замени на локальный путь
+                    width: 24
+                    height: 24
+                }
+
+                Label {
+                    text: "Ошибка"
+                    font.bold: true
+                    font.pointSize: 14
+                    color: "#d32f2f"
+                }
+            }
+
+            // Текст ошибки
+            Label {
+                objectName: "errorText"
+                text: "Произошла непредвиденная ошибка"
+                wrapMode: Text.WordWrap
+                horizontalAlignment: Text.AlignHCenter
+                Layout.fillWidth: true
+            }
+
+            // Кнопка "Ок"
+            Button {
+                text: "Ок"
+                Layout.alignment: Qt.AlignHCenter
+                onClicked: errorDialog.visible = false
+            }
         }
     }
 
@@ -72,6 +137,4 @@ Window {
             plotController.buildPlot(fileDialog.selectedFile)
         }
     }
-
-
 }

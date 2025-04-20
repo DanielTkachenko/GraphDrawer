@@ -6,16 +6,17 @@
 #include <qpoint.h>
 #include <qurl.h>
 
-FileReader::FileReader() {}
+FileReader::FileReader(const QUrl &fileUrl, QObject* parent) : QObject(parent), m_path(fileUrl) {}
 
 
-ReadResult FileReader::load(const QUrl &fileUrl) {
-    QString localPath = fileUrl.toLocalFile();
+void FileReader::load() {
+    QString localPath = m_path.toLocalFile();
     QFile file(localPath);
 
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
         qWarning() << "Не удалось открыть файл:" << localPath;
-        return {{}, false, "Failed to open file"};
+        emit finished({{}, false, "Failed to open file"});
+        return;
     }
     std::cout << "file opened" << std::endl;
     QTextStream in(&file);
@@ -26,7 +27,8 @@ ReadResult FileReader::load(const QUrl &fileUrl) {
     QString header3 = in.readLine();
     if(header1[0] != '#' || header2[0] != '!' || header3[0] != '!'){
         qWarning() << "Не верный формат файла!";
-        return {{}, false, "Wrong file format"};
+        emit finished({{}, false, "Wrong file format"});
+        return;
     }
 
     while (!in.atEnd()) {
@@ -46,15 +48,17 @@ ReadResult FileReader::load(const QUrl &fileUrl) {
                 points.append(QPointF(freq, s11));
             }
             else {
-                return {{}, false, &"Error while reading data at line " [index]};
+                emit finished({{}, false, &"Error while reading data at line " [index]});
+                return ;
             }
         }
         else {
-            return {{}, false, &"Error while reading data at line " [index]};
+            emit finished({{}, false, &"Error while reading data at line " [index]});
+            return ;
         }
     }
 
     file.close();
 
-    return {points, true, ""};
+    emit finished({points, true, ""});
 }

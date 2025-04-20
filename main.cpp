@@ -21,9 +21,9 @@ int main(int argc, char *argv[])
     engine.loadFromModule("GraphDrawer", "Main");
 
     QObject* window = engine.rootObjects().first();
-
     PlotView *view = window->findChild<PlotView*>("PlotView");
-    PlotController plotController(view);
+    QObject* errorMessageDialog = window->findChild<QObject*>("ErrorMessageDialog");
+    PlotController plotController(view, errorMessageDialog);
     engine.rootContext()->setContextProperty("plotController", &plotController);
 
 

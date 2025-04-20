@@ -2,6 +2,7 @@
 #define FILEREADER_H
 
 #include <QObject>
+#include <qurl.h>
 
 struct ReadResult {
     QVector<QPointF> data;
@@ -9,12 +10,19 @@ struct ReadResult {
     QString errorMessage;
 };
 
-class FileReader
+class FileReader : public QObject
 {
+    Q_OBJECT
 public:
-    FileReader();
+    explicit FileReader(const QUrl &fileUrl, QObject* parent = nullptr);
 
-    static ReadResult load(const QUrl &fileUrl);
+public slots:
+    void load();
+signals:
+    void finished(ReadResult result);
+
+private:
+    QUrl m_path;
 };
 
 #endif // FILEREADER_H
