@@ -1,16 +1,17 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
-#include "customgraph.h"
+#include <QObject>
+#include <iostream>
+#include "plotview.h"
+#include "plotcontroller.h"
 
 int main(int argc, char *argv[])
 {
     QGuiApplication app(argc, argv);
-
     QQmlApplicationEngine engine;
 
-    qmlRegisterType<CustomGraph>("customgraph", 1, 0, "CustomGraph");
-
+    qmlRegisterType<PlotView>("plotview", 1, 0, "PlotView");
     QObject::connect(
         &engine,
         &QQmlApplicationEngine::objectCreationFailed,
@@ -18,6 +19,13 @@ int main(int argc, char *argv[])
         []() { QCoreApplication::exit(-1); },
         Qt::QueuedConnection);
     engine.loadFromModule("GraphDrawer", "Main");
+
+    QObject* window = engine.rootObjects().first();
+
+    PlotView *view = window->findChild<PlotView*>("PlotView");
+    PlotController plotController(view);
+    engine.rootContext()->setContextProperty("plotController", &plotController);
+
 
     return app.exec();
 }

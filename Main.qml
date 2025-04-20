@@ -2,7 +2,7 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Dialogs
 import QtQuick.Layouts
-import customgraph
+import plotview
 
 Window {
     width: 640
@@ -36,8 +36,8 @@ Window {
                     text: fileDialog.selectedFile !== "" ? fileDialog.selectedFile : "Файл не выбран"
                     wrapMode: Text.WrapAnywhere
                     color: "white"
-                    font.pixelSize: 20
-                    verticalAlignment: Text.AlignVCenter
+                    font.pixelSize: 10
+                    verticalAlignment: Text.AlignHCenter
                 }
             }
         }
@@ -48,7 +48,8 @@ Window {
             Layout.fillHeight: true
             color: "black"
 
-            CustomGraph{
+            PlotView{
+                objectName: "PlotView"
                 anchors.fill: parent
                 anchors.margins: 0
                 id: graph
@@ -67,6 +68,10 @@ Window {
         id: fileDialog
         title: "Выберите файл с данными"
         nameFilters: ["S1p files (*.s1p)","Text files (*.txt)",  "All files (*)"]
-        onAccepted: graph.readFile(fileDialog.selectedFile)
+        onAccepted: function() {
+            plotController.buildPlot(fileDialog.selectedFile)
+        }
     }
+
+
 }

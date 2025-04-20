@@ -3,12 +3,18 @@
 
 #include <QObject>
 
+struct ReadResult {
+    QVector<QPointF> data;
+    bool success;
+    QString errorMessage;
+};
+
 class FileReader
 {
 public:
     FileReader();
 
-    static QVector<QPointF> load(const QUrl &fileUrl);
+    static ReadResult load(const QUrl &fileUrl);
 };
 
 #endif // FILEREADER_H

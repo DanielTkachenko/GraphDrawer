@@ -18,7 +18,9 @@ qt_add_qml_module(appGraphDrawer
     QML_FILES
         Main.qml
         SOURCES filereader.h filereader.cpp
-        SOURCES customgraph.h customgraph.cpp
+        SOURCES plotview.h plotview.cpp
+        SOURCES plotmodel.h plotmodel.cpp
+        SOURCES plotcontroller.h plotcontroller.cpp
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
