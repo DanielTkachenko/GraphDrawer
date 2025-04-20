@@ -13,12 +13,6 @@ PlotView::PlotView(QQuickItem *parent)
     m_bounds.maxX = 10e9;
     m_bounds.minY = -25.0;
     m_bounds.maxY = 0.0;
-
-    m_points << QPointF(0, 6)
-    << QPointF(2, 4)
-    << QPointF(3, 8)
-    << QPointF(7, 4)
-    << QPointF(10, 5);
 }
 
 void PlotView::updatePlot(const QVector<QPointF> &points)
@@ -69,13 +63,17 @@ void PlotView::paintGraph(QPainter *painter)
         int x = i * gridStepX;
         int y = m_size.height() - i * gridStepY;
 
+        double numberY = m_bounds.minY + (m_bounds.maxY - m_bounds.minY)/10*i;
+        double numberX = m_bounds.minX + (m_bounds.maxX - m_bounds.minX)/10*i;
+
         // Вертикальные линии
         painter->drawLine(x, 0, x, m_size.height());
-        painter->drawText(x + 2, m_size.height() - 4, QString::number(i)); // Подписи на вертикальных линиях снизу
+        painter->drawText(x + 2, m_size.height() - 4, QString::number(numberX)); // Подписи на вертикальных линиях снизу
+
 
         // Горизонтальные линии
         painter->drawLine(0, y, m_size.width(), y);
-        painter->drawText(5, y - 4, QString::number(i)); // Подписи слева от горизонтальных линий
+        painter->drawText(5, y - 4, QString::number(numberY)); // Подписи слева от горизонтальных линий
     }
 
     // === Оси ===
