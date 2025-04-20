@@ -62,14 +62,14 @@ Window {
             height: 50
             color: "#cccccc"
 
-            ProgressBar {
+            /*ProgressBar {
                 width: parent.width - 40
                 height: 30
                 anchors.centerIn: parent
                 from: 0
                 to: 100
                 value: 50  // Примерный прогресс
-            }
+            }*/
         }
     }
 
