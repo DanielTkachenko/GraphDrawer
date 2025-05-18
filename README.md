@@ -3,6 +3,12 @@
 Версия cmake: 3.30.5
 Компиллятор: mingw 64
 
+Работа программы:
+![image](https://github.com/user-attachments/assets/a64ebba4-0cd5-4e17-b179-499779656f5f)
+
+![image](https://github.com/user-attachments/assets/0869540c-f675-4a7e-85b3-7d540f132f70)
+
+
 Сборка через Qt Creator:
 
 выбрать Release конфигурацию и нажать "собрать проект"
